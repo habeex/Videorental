@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     public ServerResponse searchForUser(String query, int limit, int page) {
         PageRequest pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.DESC, "createdDate"));
         Page<User> users = userRepository.findAll(
-                Specification.where(new SearchSpecification<User>().equal("name", query)),
+                Specification.where(new SearchSpecification<User>().like("name", query)),
                 pageable
         );
         return ServerResponsePage.successResponse("Success", users.getContent(), users.getTotalPages(), page, users.getTotalElements());
